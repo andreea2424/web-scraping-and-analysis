@@ -1,0 +1,23 @@
+{
+  
+  
+  "dependencies": {
+    "axios": "^1.5.1",
+    "cheerio": "^1.0.0-rc.12",
+    "express": "^4.18.2",
+    "puppeteer": "^21.3.6",
+    "sentiment": "^5.0.2"
+  },
+  "name": "test_tehnic",
+  "version": "1.0.0",
+  "main": "api.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node api1.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+  
+}

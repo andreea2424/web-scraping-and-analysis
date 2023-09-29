@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Scraping and Analysis</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    form {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+
+    label, input, button, h2 {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input[type="text"] {
+      width: 90%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    input[type="checkbox"] {
+      margin-right: 5px;
+    }
+
+    button {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    h2 {
+      margin-top: 20px;
+    }
+
+    pre {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Web Scraping and Analysis</h1>
+  <form id="scrapeForm" method="POST">
+    <label for="url">Enter URL:</label>
+    <input type="text" id="url" name="url" required><br>
+    
+    <label>Select Elements to Scrape:</label><br>
+    
+    <input type="checkbox" id="h3" name="elements" value="h3">
+    <label for="h3">Headings</label><br>
+    <input type="checkbox" id="p" name="elements" value="p">
+    <label for="p">Paragraphs</label><br>
+    <input type="checkbox" id="div" name="elements" value="div">
+    <label for="div">Divs</label><br>
+
+    <label for="sentiment">Analyze Sentiment:</label>
+    <input type="checkbox" id="sentiment" name="analyzeSentiment" value="true"><br>
+    
+    <button type="submit">Scrape</button>
+  </form>
+  
+  <h2>Scraped Data:</h2>
+  <pre id="scrapedData"></pre>
+
+  <script>
+    const form = document.getElementById('scrapeForm');
+    const scrapedDataElement = document.getElementById('scrapedData');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const url = formData.get('url');
+      const elements = Array.from(formData.getAll('elements'));
+      const analyzeSentiment = formData.get('analyzeSentiment') === 'true';
+
+      const response = await fetch('/scrape', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ url, scrapeElements: elements, analyzeSentiment }),
+      });
+
+      const data = await response.json();
+
+      // Format the response data for display
+      const formattedData = JSON.stringify(data, null, 2);
+
+      // Display scraped data in the HTML
+      scrapedDataElement.textContent = formattedData;
+    });
+  </script>
+</body>
+</html>
